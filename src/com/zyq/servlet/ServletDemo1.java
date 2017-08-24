@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 /*
@@ -20,9 +21,9 @@ public class ServletDemo1 extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        不管tomcat有没有设置过字符编码，都需要转义。get请求中，如果地址栏中有输入中文，必须要设置tomcat编码才能使用。
         String name = new String(request.getParameter("namep").getBytes("ISO-8859-1"), "UTF-8");
-//        String name=request.getParameter("name");
+       String name1=request.getParameter("namep");
         String pwd = request.getParameter("pwdp");
-        System.out.println("post请求：" + name + "的密码是：" + pwd);
+        System.out.println("post请求：" + name + "的密码是：" + pwd+"；错误的编码name1="+name1);
 
         String p = request.getContextPath();//显示工程名
         String x = request.getRequestURI();//工程名下的地址
@@ -30,10 +31,27 @@ public class ServletDemo1 extends HttpServlet {
         String y = request.getRemoteAddr();//ipv6
         String z = request.getRemoteHost();//ip地址
         Map<String, String[]> map = request.getParameterMap();
-        String namemap = new String(request.getParameter(map.get("namep")[0]).getBytes("ISO-8859-1"), "UTF-8");
-        String pwdmap = new String(request.getParameter(map.get("pwdp")[0]).getBytes("ISO-8859-1"), "UTF-8");
-        System.out.println("post请求map：" + name + "的密码是：" + pwd);
-        System.out.println("post请求map：" + namemap + "的密码是：" + pwdmap);
+        String[] mapvalue = map.get("namep");
+        String namep = new String(mapvalue[0].getBytes("ISO-8859-1"), "UTF-8");
+        mapvalue = map.get("pwdp");
+        String pwdp = new String(mapvalue[0].getBytes("ISO-8859-1"), "UTF-8");
+        System.out.println("namep=" + namep + ",pwdp=" + pwdp);
+
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Demo1Servlet</title>");
+            out.println("<body>");
+            out.println("<h2>工程名：" + p + "</h2>");
+            out.println("<h2>工程名下的地址：" + x + "</h2>");
+            out.println("<h2>地址：" + a + "</h2>");
+            out.println("<h2>ipv6：" + y + "</h2>");
+            out.println("<h2>ip地址：" + z + "</h2>");
+            out.println("</body>");
+            out.println("</head>");
+            out.println("</html>");
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

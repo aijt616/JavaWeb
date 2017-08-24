@@ -3,12 +3,32 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.zyq.filter.EncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/demo-filter</url-pattern> <!--“/*”代表全路径-->
+    </filter-mapping>
     <servlet>
         <servlet-name>Servlet1</servlet-name>
         <servlet-class>com.zyq.servlet.ServletDemo1</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Servlet1</servlet-name>
-        <url-pattern>/demo1</url-pattern> <!--url的路径，一个servlet处理相对应的一个路径-->
+        <url-pattern>/demo-servlet</url-pattern> <!--url的路径，一个servlet处理相对应的一个路径-->
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ServletFilter</servlet-name>
+        <servlet-class>com.zyq.servlet.ServletFilter</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletFilter</servlet-name>
+        <url-pattern>/demo-filter</url-pattern> <!--url的路径，一个servlet处理相对应的一个路径-->
     </servlet-mapping>
 </web-app>
