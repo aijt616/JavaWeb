@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 /*
  * Created by 周元庆 on 2017/8/24.
@@ -18,10 +19,21 @@ import java.io.IOException;
 public class ServletDemo1 extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        不管tomcat有没有设置过字符编码，都需要转义。get请求中，如果地址栏中有输入中文，必须要设置tomcat编码才能使用。
-        String name=new String(request.getParameter("namep").getBytes("ISO-8859-1"),"UTF-8");
+        String name = new String(request.getParameter("namep").getBytes("ISO-8859-1"), "UTF-8");
 //        String name=request.getParameter("name");
-        String pwd=request.getParameter("pwdp");
-        System.out.println("post请求："+name+"的密码是："+pwd);
+        String pwd = request.getParameter("pwdp");
+        System.out.println("post请求：" + name + "的密码是：" + pwd);
+
+        String p = request.getContextPath();//显示工程名
+        String x = request.getRequestURI();//工程名下的地址
+        String a = request.getRequestURL().toString();//地址
+        String y = request.getRemoteAddr();//ipv6
+        String z = request.getRemoteHost();//ip地址
+        Map<String, String[]> map = request.getParameterMap();
+        String namemap = new String(request.getParameter(map.get("namep")[0]).getBytes("ISO-8859-1"), "UTF-8");
+        String pwdmap = new String(request.getParameter(map.get("pwdp")[0]).getBytes("ISO-8859-1"), "UTF-8");
+        System.out.println("post请求map：" + name + "的密码是：" + pwd);
+        System.out.println("post请求map：" + namemap + "的密码是：" + pwdmap);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,8 +42,8 @@ public class ServletDemo1 extends HttpServlet {
         添加 URIEncoding="UTF-8" useBodyEncodingForURI="true"
         最后重启tomcat*/
 
-        String name=request.getParameter("name");
-        String pwd=request.getParameter("pwd");
-        System.out.println(name+"的密码是："+pwd);
+        String name = request.getParameter("name");
+        String pwd = request.getParameter("pwd");
+        System.out.println(name + "的密码是：" + pwd);
     }
 }
